@@ -28,8 +28,8 @@ const ContactPage: React.FC = () => {
             <PhoneIcon className="w-8 h-8 text-purple-600 mx-4" />
             <div>
               <h3 className="text-lg font-semibold text-gray-800">{t.contactPage.phone}</h3>
-              <a href="tel:+123456789" className="text-purple-700 hover:underline" dir="ltr">
-                +1 (23) 456-789
+              <a href="tel:+212649200985" className="text-purple-700 hover:underline" dir="ltr">
+                +212 649 200985
               </a>
             </div>
           </div>

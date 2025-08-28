@@ -14,17 +14,19 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useLocalization();
 
-  const navLinks: { key: Page; text: string }[] = [
-    { key: 'home', text: t.navbar.periodCalculator },
-    { key: 'pregnancy', text: t.navbar.pregnancyCalculator },
-    { key: 'articles', text: t.navbar.articles },
-    { key: 'about', text: t.navbar.aboutUs },
-    { key: 'contact', text: t.navbar.contactUs },
+  const navLinks: { key: Page; text: string; path: string; }[] = [
+    { key: 'home', text: t.navbar.periodCalculator, path: '/' },
+    { key: 'pregnancy', text: t.navbar.pregnancyCalculator, path: '/pregnancy' },
+    { key: 'articles', text: t.navbar.articles, path: '/articles' },
+    { key: 'about', text: t.navbar.aboutUs, path: '/about' },
+    { key: 'contact', text: t.navbar.contactUs, path: '/contact' },
   ];
 
-  const NavLink: React.FC<{ pageKey: Page; text: string }> = ({ pageKey, text }) => (
-    <button
-      onClick={() => {
+  const NavLink: React.FC<{ pageKey: Page; text: string; path: string }> = ({ pageKey, text, path }) => (
+    <a
+      href={path}
+      onClick={(e) => {
+        e.preventDefault();
         onNavigate(pageKey);
         setIsMenuOpen(false);
       }}
@@ -35,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
       }`}
     >
       {text}
-    </button>
+    </a>
   );
 
   return (
@@ -43,15 +45,15 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <button onClick={() => onNavigate('home')} className="flex-shrink-0 flex items-center text-purple-700">
+            <a href="/" onClick={(e) => { e.preventDefault(); onNavigate('home'); }} className="flex-shrink-0 flex items-center text-purple-700">
                 <DropletIcon className="w-8 h-8 text-red-400" />
                 <span className="font-bold text-xl mx-2">{t.navbar.siteName}</span>
-            </button>
+            </a>
           </div>
           <div className="hidden md:flex md:items-center">
             <div className="flex items-baseline space-x-1 lg:space-x-4">
               {navLinks.map(link => (
-                  <NavLink key={link.key} pageKey={link.key} text={link.text} />
+                  <NavLink key={link.key} pageKey={link.key} text={link.text} path={link.path} />
               ))}
             </div>
             <div className="ms-4">
@@ -82,7 +84,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
         <div className="md:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-2 sm:px-3">
             {navLinks.map(link => (
-                <NavLink key={link.key} pageKey={link.key} text={link.text} />
+                <NavLink key={link.key} pageKey={link.key} text={link.text} path={link.path} />
             ))}
             <div className="p-2">
               <LanguageSwitcher />
